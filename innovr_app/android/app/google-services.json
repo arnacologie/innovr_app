@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "520886304610",
+    "firebase_url": "https://innovrteam.firebaseio.com",
+    "project_id": "innovrteam",
+    "storage_bucket": "innovrteam.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520886304610:android:0225ec76fcb09010",
+        "android_client_info": {
+          "package_name": "com.innovr.innovrapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520886304610-ol243gt7knm5jj58fnlpscpfj7kph9c9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_ieSBDQSPFt5_-N2KK7tnrVvy-olKtxQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

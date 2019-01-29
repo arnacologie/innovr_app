@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:innovr_app/Pages/HomePage.dart';
+import 'package:innovr_app/Pages/RegistrationPage.dart';
+import 'package:innovr_app/Pages/SignInPage.dart';
 
 void main() => runApp(Innovr());
 
@@ -11,9 +13,12 @@ class Innovr extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Innovr App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xFF5271FF),
+        accentColor: Color(0xFFFF5757),
+        primaryColorDark: Color(0xFF545454),
+        primaryColorLight: Color(0xFFD9D9D9),
       ),
-      home: HomePage(title: 'Innovr'),
+      home: SignInPage()
     );
   }
 }

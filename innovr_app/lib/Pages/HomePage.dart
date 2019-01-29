@@ -1,12 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:innovr_app/Tabs/HomeTab.dart';
 import 'package:innovr_app/Tabs/LiveTab.dart';
 import 'package:innovr_app/Tabs/ThirdTab.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+  HomePage({Key key, @required this.user}) : super(key: key);
 
-  final String title;
+  final FirebaseUser user;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
           appBar: AppBar(
               leading: Icon(Icons.search),
-              title: Text(widget.title),
+              title: Text('Innovr pour ${widget.user.email}'),
               centerTitle: true,
               actions: <Widget>[
                 Padding(
@@ -51,6 +52,7 @@ class _HomePageState extends State<HomePage> {
               ]
           ),
           floatingActionButton: FloatingActionButton(
+            onPressed: (){},
             tooltip: 'Activer le mode VR',
             child: Icon(Icons.threed_rotation),
           ), // This trailing comma makes auto-formatting nicer for build methods.

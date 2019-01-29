@@ -1,0 +1,212 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:innovr_app/Pages/HomePage.dart';
+import 'package:innovr_app/Pages/RegistrationPage.dart';
+import 'package:innovr_app/Utils/FadeNavRoute.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _email;
+  String _password;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            child: Image.asset('assets/logos/logo.png'),
+          ),
+          Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top:320.0, left: 30.0, right: 30.0),
+                color: Colors.transparent,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      //EMAIL
+                      TextFormField(
+                        validator: (input){
+                          if(input.isEmpty)
+                            return 'Veuillez entrer votre email';
+                        },
+                        onSaved: (input) => _email = input,
+                        decoration: InputDecoration(
+                          labelText: 'EMAIL',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColorDark
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).accentColor)
+                          )
+                        ),
+                      ),
+                      SizedBox(height: 20.0,),
+                      //MOT DE PASSE
+                      TextFormField(
+                        validator: (input){
+                          if(input.isEmpty)
+                            return 'Veuillez entrer votre mot de passe';
+                        },
+                        onSaved: (input) => _password = input,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            labelText: 'MOT DE PASSE',
+                            labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColorDark
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                            )
+                        ),
+                      ),
+                      SizedBox(height: 5.0,),
+                      //Mot de passe oublie
+                      Container(
+                        alignment: Alignment(1.0, 0.0),
+                        padding: EdgeInsets.only(top:15.0,left:20.0),
+                        child: InkWell(
+                          child: Text('Mot de passe oublié ?',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Montserrat',
+                                  decoration: TextDecoration.underline)
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 40.0,),
+                      //BOUTON SE CONNECTER
+                      Hero(
+                        tag: 'CTA',
+                        child: Container(
+                          height: 50.0,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: Theme.of(context).primaryColor,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20.0),
+                              onTap: signIn,
+                              child: Center(
+                                child: Text(
+                                  'SE CONNECTER',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat'
+                                  ),
+                                )
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0,),
+                      //BOUTON SE CONNECTER AVEC FACEBOOK
+                      Hero(
+                        tag: 'NO CTA',
+                        child: Container(
+                          height: 50,
+                          color: Colors.transparent,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                style: BorderStyle.solid,
+                                width: 1.0
+                              ),
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(20.0)
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Center(
+                                  child: ImageIcon(AssetImage('assets/logos/facebook-logo.png')),
+                                ),
+                                SizedBox(width: 15.0,),
+                                Center(
+                                  child: Material(
+                                    child: Text(
+                                      'Se connecter avec Facebook',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Montserrat'
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15.0,),
+                      //LIGNE NOUVEAU CHEZ INNOVR
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Nouveau chez Innovr?',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat'
+                            ),
+                          ),
+                          SizedBox(width: 5.0,),
+                          InkWell(
+                            onTap: (){
+                              Navigator.push(context, FadeNavRoute(
+                                builder: (context) => RegistrationPage()
+                              ));
+                            },
+                            child: Text('S\'inscrire',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline
+                            )),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> signIn() async {
+    final formState = _formKey.currentState;
+    if (formState.validate()) {
+      formState.save();
+      try {
+        FirebaseUser user = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: _email, password: _password);
+        Navigator.push(context, FadeNavRoute(builder: (context) => HomePage(user: user,)));
+      } catch (e) {
+        print(e.message);
+      }
+    }
+  }
+}

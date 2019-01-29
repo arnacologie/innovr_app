@@ -10,7 +10,19 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Center(child:Text('HOMEPAGE', style: TextStyle(fontSize: 40),))
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+                width: 350,
+                height: 250,
+                child: DecoratedBox(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(image: AssetImage('assets/graphics/LoL.jpg'))
+                    ))
+            ),
+          ],
+        )
     );
   }
 }
