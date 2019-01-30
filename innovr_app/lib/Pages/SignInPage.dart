@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:innovr_app/Database/UserManagement.dart';
 import 'package:innovr_app/Pages/HomePage.dart';
 import 'package:innovr_app/Pages/RegistrationPage.dart';
 import 'package:innovr_app/Utils/FadeNavRoute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:innovr_app/Utils/Validator.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -16,6 +18,8 @@ class _SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email;
   String _password;
+  final double _spaceBetweenFields = 20.0;
+  final double _buttonHeight = 50.0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +44,15 @@ class _SignInPageState extends State<SignInPage> {
                         validator: (input){
                           if(input.isEmpty)
                             return 'Veuillez entrer votre email';
+                          if(!Validator.checkEmail(input))
+                            return 'Veuillez entrer un email valide';
                         },
                         onSaved: (input) => _email = input,
                         decoration: InputDecoration(
+                          errorStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                          ),
                           labelText: 'EMAIL',
                           labelStyle: TextStyle(
                             fontFamily: 'Montserrat',
@@ -54,7 +64,7 @@ class _SignInPageState extends State<SignInPage> {
                           )
                         ),
                       ),
-                      SizedBox(height: 20.0,),
+                      SizedBox(height: _spaceBetweenFields,),
                       //MOT DE PASSE
                       TextFormField(
                         validator: (input){
@@ -64,6 +74,10 @@ class _SignInPageState extends State<SignInPage> {
                         onSaved: (input) => _password = input,
                         obscureText: true,
                         decoration: InputDecoration(
+                            errorStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.bold,
+                            ),
                             labelText: 'MOT DE PASSE',
                             labelStyle: TextStyle(
                                 fontFamily: 'Montserrat',
@@ -95,7 +109,7 @@ class _SignInPageState extends State<SignInPage> {
                       Hero(
                         tag: 'CTA',
                         child: Container(
-                          height: 50.0,
+                          height: _buttonHeight,
                           child: Material(
                             borderRadius: BorderRadius.circular(20.0),
                             color: Theme.of(context).primaryColor,
@@ -117,12 +131,12 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20.0,),
+                      SizedBox(height: _spaceBetweenFields,),
                       //BOUTON SE CONNECTER AVEC FACEBOOK
                       Hero(
                         tag: 'NO CTA',
                         child: Container(
-                          height: 50,
+                          height: _buttonHeight,
                           color: Colors.transparent,
                           child: Container(
                             decoration: BoxDecoration(
@@ -175,13 +189,19 @@ class _SignInPageState extends State<SignInPage> {
                                 builder: (context) => RegistrationPage()
                               ));
                             },
-                            child: Text('S\'inscrire',
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline
-                            )),
+                            child: Container(
+                              width: 70,
+                              height: 50,
+                              child: Center(
+                                child: Text('S\'inscrire',
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline
+                                )),
+                              ),
+                            ),
                           )
                         ],
                       )
@@ -197,6 +217,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Future<void> signIn() async {
+    UserManagement.findNickName();
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
