@@ -34,6 +34,9 @@ dev_dependencies:
 flutter:
   assets:
     - assets/graphics/
+    - assets/graphics/teams/
+    - assets/graphics/players/
+    - assets/graphics/icons/
     - assets/logos/
 
   fonts:

@@ -4,16 +4,16 @@ import 'package:innovr_app/Tabs/HomeTab.dart';
 import 'package:innovr_app/Tabs/LiveTab.dart';
 import 'package:innovr_app/Tabs/ThirdTab.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, @required this.user}) : super(key: key);
+class MainPage extends StatefulWidget {
+  MainPage({Key key, @required this.user}) : super(key: key);
 
   final FirebaseUser user;
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {

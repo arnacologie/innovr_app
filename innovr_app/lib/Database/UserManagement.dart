@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:innovr_app/Pages/HomePage.dart';
+import 'package:innovr_app/Pages/MainPage.dart';
 import 'package:innovr_app/Utils/FadeNavRoute.dart';
 
 class UserManagement {
@@ -20,7 +20,7 @@ class UserManagement {
       'isNew': true,
     }).then((value) {
       Navigator.of(context).pop();
-      Navigator.of(context).pushReplacement(FadeNavRoute(builder: (context) => HomePage(user: signedUser)));
+      Navigator.of(context).pushReplacement(FadeNavRoute(builder: (context) => MainPage(user: signedUser)));
     }).catchError((e) {
       print(e);
     });

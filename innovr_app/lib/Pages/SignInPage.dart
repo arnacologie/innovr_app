@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:innovr_app/Database/UserManagement.dart';
-import 'package:innovr_app/Pages/HomePage.dart';
+import 'package:innovr_app/Pages/MainPage.dart';
 import 'package:innovr_app/Pages/RegistrationPage.dart';
 import 'package:innovr_app/Utils/FadeNavRoute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,17 +23,23 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            child: Image.asset('assets/logos/logo.png'),
-          ),
-          Column(
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomPadding: false,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+              SizedBox(),
               Container(
-                padding: EdgeInsets.only(top:320.0, left: 30.0, right: 30.0),
+                  width: 325,
+                  child: Image.asset(
+                    'assets/logos/logo.png',
+                  )
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 30.0, right: 30.0),
                 color: Colors.transparent,
                 child: Form(
                   key: _formKey,
@@ -211,7 +217,7 @@ class _SignInPageState extends State<SignInPage> {
               )
             ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -224,7 +230,7 @@ class _SignInPageState extends State<SignInPage> {
       try {
         FirebaseUser user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password);
-        Navigator.push(context, FadeNavRoute(builder: (context) => HomePage(user: user,)));
+        Navigator.push(context, FadeNavRoute(builder: (context) => MainPage(user: user,)));
       } catch (e) {
         print(e.message);
       }
