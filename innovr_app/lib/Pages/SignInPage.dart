@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:innovr_app/Database/UserManagement.dart';
+import 'package:innovr_app/Pages/FirstTimePage.dart';
 import 'package:innovr_app/Pages/MainPage.dart';
 import 'package:innovr_app/Pages/RegistrationPage.dart';
 import 'package:innovr_app/Utils/FadeNavRoute.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:innovr_app/Utils/Validator.dart';
 
@@ -223,16 +223,21 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Future<void> signIn() async {
-    UserManagement.findNickName();
+    //UserManagement.findNickName();
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
       try {
         FirebaseUser user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password);
-        Navigator.push(context, FadeNavRoute(builder: (context) => MainPage(user: user,)));
+        if(await UserManagement.isUserFirstTime()) {
+          Navigator.pushReplacement(
+              context, FadeNavRoute(builder: (context) => FirstTimePage()));
+        }
+        else
+          Navigator.pushReplacement(context, FadeNavRoute(builder: (context) => MainPage(user: user,)));
       } catch (e) {
-        print(e.message);
+        print(e.toString());
       }
     }
   }
