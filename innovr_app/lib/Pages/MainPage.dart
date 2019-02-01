@@ -21,20 +21,6 @@ class _MainPageState extends State<MainPage> {
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
-          appBar: AppBar(
-              leading: Icon(Icons.search),
-              title: Text('Innovr pour ${widget.user.email}'),
-              centerTitle: true,
-              actions: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right:20),
-                  child: InkWell(
-                    onTap: (){},
-                    child: Icon(Icons.person),
-                  ),
-                ),
-              ],
-          ),
           body: TabBarView(
               children: [
                 HomeTab(),

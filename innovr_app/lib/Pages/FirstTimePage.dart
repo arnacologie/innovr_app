@@ -11,7 +11,7 @@ class FirstTimePage extends StatefulWidget {
 }
 
 class _FirstTimePageState extends State<FirstTimePage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   List<String> teamNames = [
     'Fnatic',
     'Cloud 9',
@@ -167,39 +167,44 @@ class _FirstTimePageState extends State<FirstTimePage>
   Widget _buildTeamsList() {
     return Container(
       padding: EdgeInsets.only(top: 10.0),
-      child: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: Image(
-              image: AssetImage(teamImages[index]),
-              width: 70,
-              height: 70,
-            ),
-            title: Text(
-              teamNames[index],
-              style: TextStyle(color: Colors.white, fontSize: 18.0),
-            ),
-            trailing: GestureDetector(
-              child: Container(
-                padding: EdgeInsets.all(9.0),
-                width: 50,
-                height: 50,
-                child: Image(
-                  image: isFavTeams[index]
-                      ? AssetImage('assets/graphics/icons/heart_full.png')
-                      : AssetImage('assets/graphics/icons/heart.png'),
-                  fit: BoxFit.scaleDown,
+      child: AnimatedBuilder(
+        animation: _a2Controller,
+        builder: (BuildContext context, Widget child) {
+          return ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Image(
+                  image: AssetImage(teamImages[index]),
+                  width: 70,
+                  height: 70,
                 ),
-              ),
-              onTap: () {
-                setState(() {});
-                _addSelectedTP(TEAMS, index);
-              },
-            ),
+                title: Text(
+                  teamNames[index],
+                  style: TextStyle(color: Colors.white, fontSize: 18.0),
+                ),
+                trailing: GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.all(9.0),
+                    width: 50,
+                    height: 50,
+                    child: Image(
+                      image: isFavTeams[index]
+                          ? AssetImage('assets/graphics/icons/heart_full.png')
+                          : AssetImage('assets/graphics/icons/heart.png'),
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {});
+                    _addSelectedTP(TEAMS, index);
+                  },
+                ),
+              );
+            },
+            itemExtent: _a2.value,
+            itemCount: teamNames.length,
           );
         },
-        itemExtent: 100.0,
-        itemCount: teamNames.length,
       ),
     );
   }
@@ -291,4 +296,5 @@ class _FirstTimePageState extends State<FirstTimePage>
     await UserManagement.afterFirstTime(selectedTeams, selectedPlayers);
     Navigator.of(context).pushReplacement(FadeNavRoute(builder: (context) => MainPage(user:UserManagement.currentUser)));
   }
+
 }
