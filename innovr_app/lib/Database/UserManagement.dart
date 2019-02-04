@@ -38,7 +38,7 @@ class UserManagement {
       'isNew': true,
     }).then((value) {
       Navigator.of(context).pop();
-      Navigator.of(context).pushReplacement(FadeNavRoute(builder: (context) => MainPage(user: signedUser)));
+      Navigator.of(context).pushReplacement(FadeNavRoute(builder: (context) => MainPage()));
     }).catchError((e) {
       print(e);
     });

@@ -7,12 +7,12 @@ import 'package:innovr_app/Utils/FadeNavRoute.dart';
 
 class FirstTimePage extends StatefulWidget {
   @override
-  _FirstTimePageState createState() => _FirstTimePageState();
+  FirstTimePageState createState() => FirstTimePageState();
 }
 
-class _FirstTimePageState extends State<FirstTimePage>
+class FirstTimePageState extends State<FirstTimePage>
     with TickerProviderStateMixin {
-  List<String> teamNames = [
+  static List<String> teamNames = [
     'Fnatic',
     'Cloud 9',
     'Team Envy',
@@ -20,7 +20,7 @@ class _FirstTimePageState extends State<FirstTimePage>
     'Ninjas In Pyjamas',
     'Rogue'
   ];
-  List<String> teamImages = [
+  static List<String> teamImages = [
     'assets/graphics/teams/fnatic.png',
     'assets/graphics/teams/cloud.png',
     'assets/graphics/teams/envy.png',
@@ -67,8 +67,6 @@ class _FirstTimePageState extends State<FirstTimePage>
   final PageController _pageController = PageController();
   AnimationController _animationController;
   Animation _animation;
-  AnimationController _a2Controller;
-  Animation _a2;
 
   @override
   void initState() {
@@ -79,9 +77,6 @@ class _FirstTimePageState extends State<FirstTimePage>
     _animationController =
         AnimationController(vsync: this, duration: _aDuration);
     _animation = Tween(begin: 0.0, end: 1.0).animate(_animationController);
-    _a2Controller =
-        AnimationController(vsync: this, duration: _a2Duration);
-    _a2 = Tween(begin: 300.0, end: 100.0).animate(_a2Controller);
     print(isTabPlayers);
   }
 
@@ -90,7 +85,6 @@ class _FirstTimePageState extends State<FirstTimePage>
     super.dispose();
     _pageController.dispose();
     _animationController.dispose();
-    _a2Controller.dispose();
   }
 
   @override
@@ -117,8 +111,8 @@ class _FirstTimePageState extends State<FirstTimePage>
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        /*_pageController.nextPage(
-                            duration: _kDuration, curve: _kCurve);*/
+                        _pageController.nextPage(
+                            duration: _kDuration, curve: _kCurve);
                       }),
               duration: Duration(milliseconds: 400),
             ),
@@ -167,44 +161,39 @@ class _FirstTimePageState extends State<FirstTimePage>
   Widget _buildTeamsList() {
     return Container(
       padding: EdgeInsets.only(top: 10.0),
-      child: AnimatedBuilder(
-        animation: _a2Controller,
-        builder: (BuildContext context, Widget child) {
-          return ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: Image(
-                  image: AssetImage(teamImages[index]),
-                  width: 70,
-                  height: 70,
+      child: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            leading: Image(
+              image: AssetImage(teamImages[index]),
+              width: 70,
+              height: 70,
+            ),
+            title: Text(
+              teamNames[index],
+              style: TextStyle(color: Colors.white, fontSize: 18.0),
+            ),
+            trailing: GestureDetector(
+              child: Container(
+                padding: EdgeInsets.all(9.0),
+                width: 50,
+                height: 50,
+                child: Image(
+                  image: isFavTeams[index]
+                      ? AssetImage('assets/graphics/icons/heart_full.png')
+                      : AssetImage('assets/graphics/icons/heart.png'),
+                  fit: BoxFit.scaleDown,
                 ),
-                title: Text(
-                  teamNames[index],
-                  style: TextStyle(color: Colors.white, fontSize: 18.0),
-                ),
-                trailing: GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.all(9.0),
-                    width: 50,
-                    height: 50,
-                    child: Image(
-                      image: isFavTeams[index]
-                          ? AssetImage('assets/graphics/icons/heart_full.png')
-                          : AssetImage('assets/graphics/icons/heart.png'),
-                      fit: BoxFit.scaleDown,
-                    ),
-                  ),
-                  onTap: () {
-                    setState(() {});
-                    _addSelectedTP(TEAMS, index);
-                  },
-                ),
-              );
-            },
-            itemExtent: _a2.value,
-            itemCount: teamNames.length,
+              ),
+              onTap: () {
+                setState(() {});
+                _addSelectedTP(TEAMS, index);
+              },
+            ),
           );
         },
+        itemExtent: 100.0,
+        itemCount: teamNames.length,
       ),
     );
   }
@@ -294,7 +283,7 @@ class _FirstTimePageState extends State<FirstTimePage>
   Future<Null> _launchMainPage() async {
     //TODO change isNew to false after FirstTimePage
     await UserManagement.afterFirstTime(selectedTeams, selectedPlayers);
-    Navigator.of(context).pushReplacement(FadeNavRoute(builder: (context) => MainPage(user:UserManagement.currentUser)));
+    Navigator.of(context).pushReplacement(FadeNavRoute(builder: (context) => MainPage()));
   }
 
 }

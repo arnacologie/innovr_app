@@ -5,15 +5,12 @@ import 'package:innovr_app/Tabs/LiveTab.dart';
 import 'package:innovr_app/Tabs/ThirdTab.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key, @required this.user}) : super(key: key);
-
-  final FirebaseUser user;
-
   @override
-  _MainPageState createState() => _MainPageState();
+  MainPageState createState() => MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class MainPageState extends State<MainPage> {
+  static bool isVRActivated = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,24 +18,23 @@ class _MainPageState extends State<MainPage> {
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
-          body: TabBarView(
-              children: [
-                HomeTab(),
-                LiveTab(),
-                ThirdTab()
-              ]
-          ),
-          bottomNavigationBar: TabBar(
-              labelColor: Colors.blueAccent,
-              indicatorColor: Colors.red,
-              tabs: [
-                Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.live_tv)),
-                Tab(icon: Icon(Icons.record_voice_over)),
-              ]
-          ),
+          body: TabBarView(children: [HomeTab(), LiveTab(), ThirdTab()]),
+          bottomNavigationBar: !isVRActivated
+              ? TabBar(
+                  labelColor: Colors.blueAccent,
+                  indicatorColor: Colors.red,
+                  tabs: [
+                      Tab(icon: Icon(Icons.home)),
+                      Tab(icon: Icon(Icons.live_tv)),
+                      Tab(icon: Icon(Icons.record_voice_over)),
+                    ])
+              : SizedBox(),
           floatingActionButton: FloatingActionButton(
-            onPressed: (){},
+            onPressed: () {
+              setState(() {
+                isVRActivated = !isVRActivated;
+              });
+            },
             tooltip: 'Activer le mode VR',
             child: Icon(Icons.threed_rotation),
           ), // This trailing comma makes auto-formatting nicer for build methods.

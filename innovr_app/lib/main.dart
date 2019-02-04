@@ -18,7 +18,7 @@ class Innovr extends StatelessWidget {
         primaryColorDark: Color(0xFF545454),
         primaryColorLight: Color(0xFFD9D9D9),
       ),
-      home: SignInPage()
+      home: MainPage()
     );
   }
 }

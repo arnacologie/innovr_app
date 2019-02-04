@@ -235,7 +235,7 @@ class _SignInPageState extends State<SignInPage> {
               context, FadeNavRoute(builder: (context) => FirstTimePage()));
         }
         else
-          Navigator.pushReplacement(context, FadeNavRoute(builder: (context) => MainPage(user: user,)));
+          Navigator.pushReplacement(context, FadeNavRoute(builder: (context) => MainPage()));
       } catch (e) {
         print(e.toString());
       }
