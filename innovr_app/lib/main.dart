@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:innovr_app/Pages/FirstTimePage.dart';
-import 'package:innovr_app/Pages/MainPage.dart';
 import 'package:innovr_app/Pages/SignInPage.dart';
 
 void main() => runApp(Innovr());
@@ -18,7 +16,7 @@ class Innovr extends StatelessWidget {
         primaryColorDark: Color(0xFF545454),
         primaryColorLight: Color(0xFFD9D9D9),
       ),
-      home: MainPage()
+      home: SignInPage()
     );
   }
 }

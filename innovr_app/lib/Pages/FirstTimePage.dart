@@ -62,7 +62,6 @@ class FirstTimePageState extends State<FirstTimePage>
   static const PLAYERS = 'PLAYERS';
   static const _kDuration = const Duration(milliseconds: 400);
   static const _aDuration = const Duration(milliseconds: 350);
-  static const _a2Duration = const Duration(milliseconds: 350);
   static const _kCurve = Curves.ease;
   final PageController _pageController = PageController();
   AnimationController _animationController;
@@ -140,7 +139,7 @@ class FirstTimePageState extends State<FirstTimePage>
                   key: UniqueKey(),
                 )
               : Text('Choisis des équipes à suivre', key: UniqueKey()),
-          duration: Duration(milliseconds: 350),
+          duration: Duration(milliseconds: 200),
         ),
       ),
       body: Container(
