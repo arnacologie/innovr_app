@@ -31,7 +31,6 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
       child: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            floating: true,
             expandedHeight: 200.0,
             backgroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(

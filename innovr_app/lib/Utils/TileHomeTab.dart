@@ -34,18 +34,20 @@ class _TileHomeTabState extends State<TileHomeTab> {
         return Transform(
           transform: Matrix4.translationValues(0.0, _animation.value*height, 0.0),
           child: Container(
-              padding: EdgeInsets.all(15.0),
+              padding: widget.index == widget.childCount-1
+                  ? EdgeInsets.only(top: 20.0, bottom: 20.0, left: 20.0, right: 20.0)
+                  : EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
               color: Colors.transparent,
               child: Container(
                 decoration: BoxDecoration(
                   color: widget.index%2==0 ? Theme.of(context).primaryColor : Theme.of(context).accentColor.withOpacity(0.85),
                   border: Border.all(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(10.0)
+                  borderRadius: BorderRadius.circular(7.0)
                 ),
                 child: Column(
                   children: <Widget>[
                     ListTile(
-                      leading: Text('${hour+widget.index}h00', style: TextStyle(fontFamily: 'Montserrat'),),
+                      leading: Text('${hour+widget.index}h00', style: TextStyle(fontFamily: 'Montserrat', color: Colors.white),),
                     ),
                     ListTile(
                       leading: Image(
